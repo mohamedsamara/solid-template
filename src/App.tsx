@@ -1,12 +1,22 @@
 import type { Component } from "solid-js";
+import { lazy } from "solid-js";
+import { Router, Route, A } from "@solidjs/router";
+
+const Home = lazy(() => import("./pages/Home"));
+const Notes = lazy(() => import("./pages/Notes"));
+const NoMatch = lazy(() => import("./pages/NoMatch"));
+
+import Layout from "./components/Layout";
 
 const App: Component = () => {
   return (
-    <div class="min-h-screen flex items-center justify-center bg-blue-100">
-      <h1 class="text-4xl font-bold text-blue-600">
-        Hello, Solid.js with Tailwind!
-      </h1>
-    </div>
+    <Router>
+      <Route path="/" component={Layout}>
+        <Route path="/" component={Home} />
+        <Route path="/notes" component={Notes} />
+      </Route>
+      <Route path="*" component={NoMatch} />
+    </Router>
   );
 };
 
