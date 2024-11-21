@@ -11,7 +11,6 @@ const Layout: Component<RouteSectionProps> = ({ children }) => {
         </nav>
       </header>
       <main>{children}</main>
-      {/* <footer>Footer</footer> */}
     </div>
   );
 };
