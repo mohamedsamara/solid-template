@@ -1,9 +1,6 @@
 import { splitProps, children, JSX } from "solid-js";
 import { type Component } from "solid-js";
-
 import { cva, type VariantProps } from "class-variance-authority";
-
-import { cn } from "../../lib/utils";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
@@ -43,19 +40,20 @@ interface ButtonProps
 
 const Button: Component<ButtonProps> = (props) => {
   const safeChildren = children(() => props.children);
-  const [themeProps, restProps] = splitProps(props, ["size", "variant"]);
+  const [themeProps, restProps] = splitProps(props, [
+    "size",
+    "variant",
+    "class",
+  ]);
+
+  const combinedClasses = buttonVariants({
+    variant: themeProps.variant,
+    size: themeProps.size,
+    class: themeProps.class,
+  });
 
   return (
-    <button
-      class={cn(
-        buttonVariants({
-          variant: themeProps.variant,
-          size: themeProps.size,
-          class: restProps.class,
-        })
-      )}
-      {...restProps}
-    >
+    <button class={combinedClasses} {...restProps}>
       {safeChildren()}
     </button>
   );

@@ -4,13 +4,13 @@ import { A, RouteSectionProps } from "@solidjs/router";
 const Layout: Component<RouteSectionProps> = ({ children }) => {
   return (
     <div class="min-h-screen flex flex-col bg-slate-50">
-      <header>
-        <nav class="flex gap-2">
+      <header class="container p-4 mx-auto my-8">
+        <nav class="flex gap-3">
           <A href="/">Home</A>
           <A href="/notes">Notes</A>
         </nav>
       </header>
-      <main>{children}</main>
+      {children}
     </div>
   );
 };
