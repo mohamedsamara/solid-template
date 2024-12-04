@@ -1,4 +1,4 @@
-import { splitProps, children, JSX } from "solid-js";
+import { splitProps, JSX } from "solid-js";
 import { type Component } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -22,7 +22,7 @@ const buttonVariants = cva(
         default: "h-10 px-4 py-2",
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
+        icon: "h-8 w-8 rounded-full",
       },
     },
     defaultVariants: {
@@ -39,13 +39,11 @@ interface ButtonProps
 }
 
 const Button: Component<ButtonProps> = (props) => {
-  const safeChildren = children(() => props.children);
   const [themeProps, restProps] = splitProps(props, [
     "size",
     "variant",
     "class",
   ]);
-
   const combinedClasses = buttonVariants({
     variant: themeProps.variant,
     size: themeProps.size,
@@ -54,7 +52,7 @@ const Button: Component<ButtonProps> = (props) => {
 
   return (
     <button class={combinedClasses} {...restProps}>
-      {safeChildren()}
+      {restProps.children}
     </button>
   );
 };

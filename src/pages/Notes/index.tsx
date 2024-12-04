@@ -1,84 +1,60 @@
-import { Component } from "solid-js";
-import { z } from "zod";
+import { Component, createSignal, For, Show } from "solid-js";
 
-import { useForm } from "lib/hooks";
-import ErrorMessage from "components/ErrorMessage";
-import { Input } from "components/Input";
-import { Textarea } from "components/Textarea";
+import { useNotes } from "lib/hooks";
+import { Note } from "lib/types";
 import Button from "components/Button";
-
-const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  content: z.string().min(1, "Content is required"),
-});
+import AddNoteForm from "./AddNoteForm";
+import NoteItem from "./NoteItem";
+import EditNoteForm from "./EditNoteForm";
 
 const Notes: Component = () => {
-  const {
-    formValues,
-    errors,
-    isSubmitting,
-    isDirty,
-    isValid,
-    handleChange,
-    handleSubmit,
-    reset,
-  } = useForm({ title: "", content: "" }, formSchema);
-  const isFormDisabled = () => !isValid() || isSubmitting() || !isDirty();
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      console.log("values", values);
-    } catch (error) {
-      console.log("error", error);
-    } finally {
-      reset();
-    }
-  };
+  const [editNoteDialog, setEditNoteDialog] = createSignal<{
+    note: Note | null;
+    isOpen: boolean;
+  }>({ note: null, isOpen: false });
+  const { notes, removeNote } = useNotes();
 
   return (
-    <main class="flex flex-col h-screen overflow-auto">
-      <div class="container p-4 mx-auto my-8">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          class="px-8 py-10 bg-white border rounded-md"
-        >
-          <h2 class="mb-10">Add Note</h2>
-          <div class="space-y-2 mb-6">
-            <label for="title">Title</label>
-            <Input
-              id="title"
-              name="title"
-              type="text"
-              value={formValues().title}
-              onInput={handleChange}
-            />
-
-            <ErrorMessage error={errors().title ?? ""} />
-          </div>
-          <div class="space-y-2">
-            <label for="content">Content</label>
-            <Textarea
-              id="content"
-              name="content"
-              value={formValues().content}
-              onInput={handleChange}
-            />
-            <ErrorMessage error={errors().content ?? ""} />
-          </div>
-          <div class="flex gap-3 justify-end mt-10">
-            <Button type="submit" disabled={isFormDisabled()}>
-              Submit
-            </Button>
-            <Button
-              variant="outline"
-              disabled={isFormDisabled()}
-              onClick={reset}
-            >
-              Reset
-            </Button>
-          </div>
-        </form>
+    <main class="flex flex-col h-full overflow-auto pt-10 pb-[5rem]">
+      <div class="container p-4 mx-auto">
+        <AddNoteForm />
+        <div class="mt-8">
+          <h3 class="mb-2">Notes</h3>
+          {notes.length > 0 ? (
+            <For each={notes}>
+              {(note) => (
+                <li class="p-4 border rounded-lg shadow-sm list-none mt-4">
+                  <NoteItem note={note} />
+                  <div class="flex justify-end">
+                    <Button
+                      color="warning"
+                      onClick={() => setEditNoteDialog({ isOpen: true, note })}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      onClick={() => removeNote(note.uid)}
+                      class="ml-2"
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </li>
+              )}
+            </For>
+          ) : (
+            <p class="text-slate-600">No notes found.</p>
+          )}
+        </div>
       </div>
+      <Show when={!!editNoteDialog().note}>
+        <EditNoteForm
+          note={editNoteDialog().note as Note}
+          isOpen={editNoteDialog().isOpen}
+          onClose={() => setEditNoteDialog({ note: null, isOpen: false })}
+        />
+      </Show>
     </main>
   );
 };
