@@ -8,6 +8,10 @@
     "build": "vite build",
     "serve": "vite preview"
   },
+  "keywords": [
+    "solid"
+  ],
+  "author": "Mohamed Samara (https://github.com/mohamedsamara)",
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "^10.4.20",
