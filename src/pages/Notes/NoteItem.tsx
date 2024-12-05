@@ -1,7 +1,13 @@
+import { Component } from "solid-js";
+
 import { Note } from "lib/types";
 import { formatDateTimeString } from "lib/utils";
 
-const NoteItem = ({ note }: { note: Note }) => {
+type Props = {
+  note: Note;
+};
+
+const NoteItem: Component<Props> = ({ note }) => {
   const createdAt = formatDateTimeString(note.createdAt);
   const updatedAt = formatDateTimeString(note.updatedAt);
 

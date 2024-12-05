@@ -1,5 +1,4 @@
-import { splitProps, JSX } from "solid-js";
-import { type Component } from "solid-js";
+import { splitProps, JSX, Component } from "solid-js";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(

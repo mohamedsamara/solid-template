@@ -1,3 +1,5 @@
+import { Component } from "solid-js";
+
 import { Note, NoteFormValues } from "lib/types";
 import { useNotes } from "lib/hooks";
 import Dialog from "components/Dialog";
@@ -9,7 +11,7 @@ type Props = {
   onClose: () => void;
 };
 
-const EditNoteForm = (props: Props) => {
+const EditNoteForm: Component<Props> = (props) => {
   const { udpateNote } = useNotes();
 
   const onSubmit = async (values: NoteFormValues) => {
