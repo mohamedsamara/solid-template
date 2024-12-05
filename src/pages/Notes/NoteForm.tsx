@@ -42,7 +42,9 @@ const NoteForm: Component<Props> = (props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div class="space-y-2 mb-6">
-        <label for="title">Title</label>
+        <label class="font-medium text-slate-600" for="title">
+          Title
+        </label>
         <Input
           id="title"
           name="title"
@@ -54,7 +56,9 @@ const NoteForm: Component<Props> = (props) => {
         <ErrorMessage error={errors().title ?? ""} />
       </div>
       <div class="space-y-2">
-        <label for="content">Content</label>
+        <label class="font-medium text-slate-600" for="content">
+          Content
+        </label>
         <Textarea
           id="content"
           name="content"

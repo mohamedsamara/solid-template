@@ -10,6 +10,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        poppins: "Poppins",
+        archivo: "Archivo",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

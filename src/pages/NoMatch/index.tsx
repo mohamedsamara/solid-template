@@ -1,4 +1,4 @@
-import { A } from "@solidjs/router";
+import Link from "components/Link";
 
 const NoMatch = () => {
   return (
@@ -8,9 +8,9 @@ const NoMatch = () => {
         <p class="text-slate-600">
           Sorry, we could not find the page you are looking for.
         </p>
-        <A color="secondary" href="/" class="btn-default">
+        <Link href="/" class="inline-flex">
           Go to home
-        </A>
+        </Link>
       </div>
     </div>
   );
